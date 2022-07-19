@@ -15,3 +15,5 @@ mkdir $prj_dir && cd $prj_dir
 mkdir sim src out
 cp -r ../scripts/* ./
 rm -rf new.sh
+cd sim
+touch tb-top.sv
