@@ -13,7 +13,8 @@ fi
 prj_dir=$PWD/$1
 mkdir $prj_dir && cd $prj_dir
 mkdir sim src out
-cp -rT ../scripts ./
+cp -r ../scripts/* ./
+cp -r ../scripts/.gitignore ./
 rm -rf new.sh update.sh
 cd sim
 touch tb.sv
