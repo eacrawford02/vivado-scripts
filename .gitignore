@@ -1,7 +1,10 @@
 .Xil
 xsim.dir
+.compile-timestamp
+.elab-timestamp
 *.wdb
 *.jou
 *.log
 *.pb
 *.str
+*.wcfg
