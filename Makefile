@@ -53,7 +53,7 @@ $(tb)_snapshot.wdb : .elab-timestamp
 .compile-timestamp : $(src-dir)/*.sv
 	@echo
 	@echo "### COMPILING SYSTEMVERILOG ###"
-	xvlog -sv -incr $(src-dir)/*.sv $(sim-dir)/*.sv
+	xvlog -sv -incr `find -regextype posix-extended -regex '.*\.(sv|v)'`
 	touch .compile-timestamp
 
 #=== Clean up project directory ===#
