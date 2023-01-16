@@ -59,5 +59,6 @@ $(tb)_snapshot.wdb : .elab-timestamp
 #=== Clean up project directory ===#
 .PHONY : clean
 clean :
+	rm -rf out/*
 	rm -rf *.jou *.log *.pb *.wdb *.str xsim.dir
 	rm -rf .*-timestamp
