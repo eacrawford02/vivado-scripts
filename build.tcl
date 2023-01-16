@@ -1,4 +1,4 @@
-# Tcl script to synthesize logic and generate bitstream. Expects two arguments:
+# Tcl script to synthesize logic and generate bitstream. Expects four arguments:
 # 1. Output directory for storing reports
 # 2. Part number for the target FPGA
 # 3. Directory containing HDL source files
@@ -22,10 +22,19 @@ if {[llength $prevOut] != 0} {
   puts "$outDir is empty"
 }
 # STEP 1: setup design sources and constraints
-read_verilog -sv [ glob $srcDir/*.sv ]
+while {[llength $srcDir]} {
+  # The name variable holds the next directory we will check for further sub- 
+  # directories
+  set srcDir [lassign $srcDir name]
+  # Append any subdirectories in the current directory to the master srcDir list
+  lappend srcDir {*}[glob -nocomplain -directory $name -type d *]
+  # Append any source files in the current directory to the srcFiles list
+  lappend srcFiles {*}[glob -nocomplain -directory $name -type f *{.sv,.v}]
+}
+read_verilog -sv $srcFiles
 read_xdc $constraints
 # STEP 2: run synthesis, report utilization and timing estimates, write checkpoint design
-synth_design -top [lindex [find_top -files [glob $srcDir/*.sv]] 0]
+synth_design -top [lindex [find_top -files $srcFiles] 0]
 write_checkpoint -force $outDir/post_synth
 report_utilization -file $outDir/post_synth_util.rpt
 report_timing -sort_by group -max_paths 5 -path_type summary -file $outDir/post_synth_timing.rpt
